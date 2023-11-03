@@ -2,13 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 import time
 from pso import PSO
+from pso import NUMBER_OF_ITERACTIONS
 import ast
 import numpy as np
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 
-NUMBER_OF_ITERACTIONS = 100
-NUMBER_OF_PARTICLES = 30
 NUMBER_OF_FRAMES = NUMBER_OF_ITERACTIONS
 ANIMATION_INTERVAL = 100
 GRID_DISCRETIZATION = 200
@@ -199,13 +198,13 @@ def run_algorithm():
     global_best = pso.getGlobalBestX()
     global_best_string = f"x = {global_best[0]: .3f}, y = {global_best[1]: .3f}, f(x, y) = {pso.getFunction()(*global_best): .3f}"
     result_text.config(font="Helvetica 20 bold")
-    result_text.delete(1, tk.END)
+    result_text.delete(0, tk.END)
     result_text.insert(tk.END, global_best_string)
 
     elapsed_time = end_time - start_time
     time_string = f"t = {elapsed_time*1000: .3f}ms"
     time_text.config(font="Helvetica 20 bold")
-    time_text.delete(1, tk.END)
+    time_text.delete(0, tk.END)
     time_text.insert(tk.END, time_string)
 
     animate_pso(pso)
@@ -277,7 +276,7 @@ cognitive_w_label = ttk.Label(window, text="Cognitive Weight:")
 cognitive_w_label.grid(row=6, column=0, sticky="e")
 cognitive_w_entry = ttk.Entry(window)
 cognitive_w_entry.grid(row=6, column=1, columnspan=2, sticky="ew")
-cognitive_w_entry.insert(0, "0.9")
+cognitive_w_entry.insert(0, "0.3")
 
 social_w_label = ttk.Label(window, text="Social Weight:")
 social_w_label.grid(row=7, column=0, sticky="e")

@@ -1,7 +1,5 @@
 import numpy as np
 from particle import Particle
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
 
 NUMBER_OF_ITERACTIONS = 100
 NUMBER_OF_PARTICLES = 30
@@ -58,46 +56,3 @@ class PSO:
             history.append(particle.getParticleHistory())
         
         return history
-
-def animate_pso(pso):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    f = pso.getFunction()
-    history = pso.getAllParticlesHistory()
-
-    x_axis = np.linspace(*pso.getFunctionRange(), GRID_DISCRETIZATION)
-    y_axis = np.linspace(*pso.getFunctionRange(), GRID_DISCRETIZATION)
-    X, Y = np.meshgrid(x_axis, y_axis)
-    Z = f(X, Y)
-
-    def update(frame):
-        ax.cla()
-        surf = ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.7)
-
-        particle_positions = [frame_data[frame] for frame_data in history]
-
-        for positions in particle_positions:
-            ax.scatter(positions[0], positions[1], positions[2], c='r', s=20)
-        
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-
-        if frame == NUMBER_OF_FRAMES:
-            ani.event_source.stop()
-        
-        return surf
-
-    ani = FuncAnimation(fig, update, frames=NUMBER_OF_FRAMES, interval=ANIMATION_INTERVAL)
-    plt.show()
-
-def execute():
-    plot_range = (-512,512)
-    pso = PSO(f1, plot_range)
-    pso.run()
-    print(pso.getGlobalBestX())
-    animate_pso(pso)
-
-if __name__ == "__main__":
-    execute()
